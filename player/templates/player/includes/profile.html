@@ -1,0 +1,31 @@
+<form class="w-100">
+    <div class="row w-100 " >
+        <div class="col-md-9 offset-1 ">
+            <div class="row">
+                <div class="col-md-12">
+                    <h5 class="text-right saddlebrown">
+                         <i class="fas fa-id-card"></i> Profile
+                    </h5>
+                    <hr>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="saddlebrown " style="font-weight: bold">Username</label>
+                    <input class="form-control saddlebrown__input" value="{{ request.user.username }}" readonly>
+                </div>
+
+                <div class="form-group col-md-6 ">
+                    <label class="saddlebrown" style="font-weight: bold">Email</label>
+                    <input class="form-control saddlebrown__input" value="{{ request.user.email }}" readonly>
+                </div>
+                <div class="form-group col-md-12 ">
+                    <button class="btn btn-primary saddlebrown__btn float-right">
+                        <i class="fa fa-check"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</form>

@@ -1,0 +1,26 @@
+{% extends "website/app.html" %}
+
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card w-100">
+
+                <div class="card-body w-100">
+                    <div class="row">
+                        {% if room %}
+                            <input type="hidden" value="{{ room.hash }}" name="room">
+                            <input type="hidden" value="{{ orientation }}" name="orientation">
+                            <input type="hidden" value="{{ room.fen }}" name="fen">
+
+                        {% endif %}
+                        <div id="board1" style="width: 1000px!important;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

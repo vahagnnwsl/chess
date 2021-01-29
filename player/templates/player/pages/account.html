@@ -1,0 +1,52 @@
+{% extends "website/app.html" %}
+
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="card w-100">
+
+            <div class="card-body w-100">
+                <div class="d-flex align-items-start w-100">
+                    <div class="nav flex-column nav-pills me-3 w-25 p-2" >
+                        <a class="nav-link account-nav-link {% if  request.path == '/account/' %} saddlebrown__active {% endif %}" href="{% url 'account' %}">Profile</a>
+
+                        <a class="nav-link account-nav-link  {% if  request.path == '/account/password' %} saddlebrown__active {% endif %}" href="{% url 'account_password' %}">Password</a>
+
+                        <a class="nav-link account-nav-link {% if  request.path == '/account/history' %} saddlebrown__active {% endif %}" href="{% url 'account_history' %}">History</a>
+
+                        <a class="nav-link account-nav-link {% if  request.path == '/account/statics' %} saddlebrown__active {% endif %}" href="{% url 'account_statics' %}">Statics</a>
+                    </div>
+                    <div class="tab-content w-75 p-2 chess_bg" style="min-height: 350px" >
+
+                        {% if request.path == '/account/' %}
+                            <div class="tab-pane fade show active">
+                                {% include 'player/includes/profile.html' %}
+                            </div>
+                        {% endif %}
+
+                        {% if request.path == '/account/password' %}
+                            <div class="tab-pane fade show active">
+                                {% include 'player/includes/password.html' %}
+                            </div>
+                        {% endif %}
+
+                        {% if request.path == '/account/history' %}
+                            <div class="tab-pane fade show active">
+                                {% include 'player/includes/history.html' %}
+                            </div>
+                        {% endif %}
+
+                        {% if request.path == '/account/statics' %}
+                            <div class="tab-pane fade show active">
+                                {% include 'player/includes/statics.html' %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+.account-nav-link {
+    border-radius: 0 !important;
+    border-bottom: 2px solid saddlebrown;
+    color: saddlebrown !important;
+    font-weight: bold;
+}
+
+.account-nav-link:hover {
+    color: white !important;
+    background-color: saddlebrown !important;
+}
+
+.saddlebrown {
+    color: saddlebrown !important;
+}
+
+.saddlebrown__btn {
+    background-color: saddlebrown !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 0 !important;
+    border-color: saddlebrown !important;
+}
+
+.saddlebrown__btn:hover {
+    background-color: white !important;
+    color: saddlebrown !important;
+}
+
+.saddlebrown__input {
+    border-color: saddlebrown !important;
+    border-radius: 0 !important;
+}
+
+.saddlebrown__active {
+    background-color: saddlebrown !important;
+    color: white !important;
+}
+
+.chess_bg {
+    background: url('/static/img/chess_bg.jpg') !important;
+    background-repeat: space !important;
+    background-position: center !important;
+    background-size: contain !important;
+
+
+}
