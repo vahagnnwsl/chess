@@ -2,3 +2,5 @@
 node_modules
 /venv
 venv
+.idea
+__pycache__
