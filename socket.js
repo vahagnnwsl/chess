@@ -9,14 +9,10 @@ app.get('/', (req, res) => {
 io.on('connection', function (socket) {
 
     socket.on('broad_cast_fen', function (data) {
-        console.log(data)
-        // socket.broadcast.to(data.room).emit('receive_fen', data);
         io.sockets.in(data.room).emit('receive_fen', data);
-
     });
     socket.on('login', function (room) {
-        socket.join(room);
-        console.log('login')
+
         io.sockets.in(room).emit('user:on', {room: room, length: io.sockets.adapter.rooms.get(room).size});
     });
     socket.on('idle', function () {
@@ -27,6 +23,7 @@ io.on('connection', function (socket) {
         });
     });
     socket.on('active', function () {
+
         Object.keys(io.sockets.adapter.rooms).forEach(function (room) {
             socket.broadcast.to(room).emit('user:on', {room: room, length: io.sockets.adapter.rooms[room].length});
         });

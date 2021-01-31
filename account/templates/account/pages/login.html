@@ -1,0 +1,36 @@
+{% extends "website/app.html" %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="card w-100">
+            <div class="card-header">
+                <h2 class="text-center ff">Sign in</h2>
+            </div>
+            <div class="card-body w-100">
+                 <form action="{% url 'login_post' %}" method="POST">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group">
+                            <label for="{{ form.name }}" class="ff"
+                                   style="font-size: 1.5rem">{{ field.label }}</label>
+                            {{ field }}
+                            {{ field.errors }}
+
+                        </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block"
+                                style="background-color: saddlebrown;border: none">Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

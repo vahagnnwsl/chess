@@ -113,7 +113,7 @@ var config = {
 board = Chessboard('board1', config)
 
 updateStatus()
-const room = $('input[name=room]').val();
+const room = $('input[name=game]').val();
 const fen = $('input[name=fen]').val();
 
 if (fen) {

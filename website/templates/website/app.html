@@ -13,38 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     {% csrf_token %}
     <style>
-        .blog-header-logo {
-            font-family: "Playfair Display", Georgia, "Times New Roman", serif /*rtl:Amiri, Georgia, "Times New Roman", serif*/;
-            font-size: 2.25rem;
-        }
-
-        .ff {
-            font-family: "Verdana, sans-serif", Verdana, "Times New Roman", sans-serif /*rtl:Amiri, Georgia, "Times New Roman", serif*/;
-            color: saddlebrown;
-
-        }
-
-        .d__i:hover{
-            background-color: saddlebrown;
-            color: white!important;
-        }
-
-        .new__game:hover {
-            background-color: white!important;
-            color: saddlebrown!important;
-            border-color: saddlebrown!important;
-        }
-        .ua:hover {
-            background-color: saddlebrown;
-            color: white !important;
-        }
-
-        .errorlist {
-            font-weight: bold;
-            color: red;
-            text-decoration: none;
-            list-style: none;
-        }
 
     </style>
 
@@ -53,9 +21,8 @@
 
 <body>
 
-<main class="flex-shrink-0">
-    <div class="container">
-        <header class="blog-header py-3">
+<main class="container" role="main">
+     <header class="blog-header py-3">
             <div class="row flex-nowrap justify-content-between align-items-center"
                  style="border-bottom: 1px solid saddlebrown; box-shadow: 0 2px saddlebrown;">
                 <div class="col-4">
@@ -80,10 +47,14 @@
                         {% if not room %}
                             <form method="post" action="{% url 'create_room' %}">
                                 {% csrf_token %}
-                                <button style="color: white;font-weight: bold;border:1px solid saddlebrown!important;font-size: 1rem;text-decoration: none;background-color: saddlebrown" class="new__game">
+                                {{ request.active_game }}
+                                {% if not active_game.request %}
+                                <button style="color: white;font-weight: bold;border:1px solid saddlebrown!important;font-size: 1rem;text-decoration: none;background-color: saddlebrown"
+                                        class="new__game">
                                     <i class="fa fa-chess"></i>
                                     New game
                                 </button>
+                                 {% endif %}
                             </form>
                         {% endif %}
 
@@ -94,11 +65,13 @@
                                 {{ request.user.username }}
                             </a>
                             <div class="dropdown-menu w-100">
-                                <a href="{% url 'account' %}" class="dropdown-item w-100 d__i" style="color: saddlebrown;padding-right: 0.5rem!important;">
+                                <a href="{% url 'account' %}" class="dropdown-item w-100 d__i"
+                                   style="color: saddlebrown;padding-right: 0.5rem!important;">
                                     <i class="fa fa-user-circle "></i> Account
                                 </a>
-                                <a href="{% url 'logout' %}" class="dropdown-item  w-100 d__i" style="color: saddlebrown;padding-right: 0.5rem!important;">
-                                     <i class="fa fa-sign-out-alt"></i>
+                                <a href="{% url 'logout' %}" class="dropdown-item  w-100 d__i"
+                                   style="color: saddlebrown;padding-right: 0.5rem!important;">
+                                    <i class="fa fa-sign-out-alt"></i>
                                     Loge out
                                 </a>
                             </div>
@@ -112,23 +85,26 @@
         {% block content %}
 
         {% endblock %}
-    </div>
 </main>
+<footer class="footer"  style="border-top: 2px solid saddlebrown!important;">
+    <div class="container">
+        <div class="inner ">
+          <p class="text-center">Cover template for <a class="saddlebrown" href="https://getbootstrap.com/">Bootstrap</a>, by <a class="saddlebrown" href="https://twitter.com/mdo">@mdo</a>.</p>
+        </div>
+    </div>
+</footer>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="/static/chessboardjs-1.0.0/js/chessboard-1.0.0.min.js"></script>
 <script src="/static/chessjs/chess.js"></script>
+
 {% if room %}
     <script src="http://127.0.0.1:3000/socket.io/socket.io.js"></script>
     <script src="/static/player.js"></script>
-
 {% endif %}
-{##}
-{#<footer class="footer mt-auto py-3 bg-light">#}
-{#    <div class="container">#}
-{#        <span class="text-muted">Place sticky footer content here.</span>#}
-{#    </div>#}
-{#</footer>#}
+
+
 </body>
 </html>
