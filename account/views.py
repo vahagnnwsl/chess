@@ -66,6 +66,7 @@ def account(request):
 @require_http_methods(["POST", "GET"])
 @login_required
 def password(request):
+    
     if request.method == 'GET':
 
         return render(request, 'account/pages/account.html',
