@@ -1,7 +1,11 @@
 /node_modules
 node_modules
 /venv
+/env
+env
 venv
 .idea
 .env
 __pycache__
+/account/migrations
+/game/migrations

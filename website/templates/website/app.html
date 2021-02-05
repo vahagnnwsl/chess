@@ -107,7 +107,7 @@
     {% if  room.is_finish == 0 %}
         <script src="{% socket_host %}/socket.io/socket.io.js"></script>
         <script>
-            const socket = io({% socket_host %});
+            const socket = io("{% socket_host %}");
         </script>
         <script src="/static/player.js"></script>
     {% else %}
