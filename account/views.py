@@ -4,7 +4,8 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from django.contrib import messages
+from game.models import Room
+from django.db.models import Q
 
 
 @require_http_methods(["GET"])
@@ -63,14 +64,21 @@ def account(request):
     return render(request, 'account/pages/account.html')
 
 
+@require_http_methods(["GET"])
+@login_required
+def history(request):
+    rooms = Room.objects.filter(Q(user_1_id=request.user.id) |
+                                Q(user_2_id=request.user.id))
+    return render(request, 'account/pages/account.html', {'rooms': rooms})
+
+
 @require_http_methods(["POST", "GET"])
 @login_required
 def password(request):
-    
     if request.method == 'GET':
 
         return render(request, 'account/pages/account.html',
-                      { 'form': ChangePasswordForm(request.user)})
+                      {'form': ChangePasswordForm(request.user)})
     else:
 
         form = ChangePasswordForm(request.user, request.POST)
@@ -79,4 +87,4 @@ def password(request):
             user = request.user
             user.set_password(form.cleaned_data['new_password1'])
             user.save()
-            return render(request, 'account/pages/account.html', { 'form': form})
+            return render(request, 'account/pages/account.html', {'form': form})

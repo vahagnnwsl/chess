@@ -10,7 +10,8 @@
             <div class="card-body w-100">
                 <div class="d-flex align-items-start w-100">
                     <div class="nav flex-column nav-pills me-3 w-25 p-2 chess_bg" style="min-height: 350px">
-                        <a class="nav-link account-nav-link {% if  request.path == '/account/' %} saddlebrown__active {% endif %}"
+                        
+                        <a class="nav-link account-nav-link {% if  request.path == '/account' %} saddlebrown__active {% endif %}"
                            href="{% url 'account' %}">
                             <i class="fas fa-id-card" aria-hidden="true"></i>
                             <span>Profile</span>
@@ -40,8 +41,7 @@
                     </div>
                     <div class="tab-content w-75 p-2 "
                          style="min-height: 350px;border: 1px solid lightgrey;border-left: none!important;">
-
-                        {% if request.path == '/account/' %}
+                        {% if request.path == '/account' %}
                             <div class="tab-pane fade show active">
                                 {% include 'account/includes/profile.html' %}
                             </div>

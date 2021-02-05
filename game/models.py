@@ -18,4 +18,12 @@ class Room(models.Model):
     )
     is_finish = models.SmallIntegerField(default=0)
     fen = models.TextField(null=True)
-    win = models.CharField(max_length=255, null=True)
+    pgn = models.TextField(null=True)
+    moves = models.TextField(null=True)
+    winner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name='winner_id_room_set'
+
+    )

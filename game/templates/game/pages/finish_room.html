@@ -12,23 +12,13 @@
                     <div class="row">
                         <div class="col-md-12 mt-2">
                             <h4 class="saddlebrown p-2 opponent">
-                                <span class="status offline__status"></span>
-                                {% if opponent.id %}
-                                    <span>{{ opponent.username }}</span>
-                                {% else %}
-
-                                    <span class="opponent__username">waiting to be connect opponent</span>
-                                {% endif %}
+                                 <span>{{ opponent.username }}</span>
                             </h4>
                         </div>
                         <div class="col-md-8">
                             <div class="row">
                                 {% if room %}
-                                    <input type="hidden" value="{{ request.user.username }}" name="username">
-                                    <input type="hidden" value="{{ room.hash }}" name="room">
-                                    <input type="hidden" value="{{ orientation }}" name="orientation">
                                     <input type="hidden" value="{{ room.fen }}" name="fen">
-                                    <input type="hidden" value="{{ opponent.username }}" name="opponent_username">
 
                                 {% endif %}
                                 <div id="board1" style="width: 800px!important;"></div>
@@ -38,23 +28,13 @@
                             {% for  move  in moves %}
                                 <span class="move">{{ forloop.counter }} {{ move }}</span>
                             {% endfor %}
-
                         </div>
                         <div class="col-md-12 mt-2">
                             <h4 class="saddlebrown p-2">
-                                <span class="online__status"></span>
-                                You
+                                 You
                             </h4>
                         </div>
-                        {% if room.is_finish == 0 and opponent %}
-                            <div class="col-md-12">
 
-                                <hr/>
-                                <button class="btn btn-danger float-right" id="surrender__btn" title="Surrender">
-                                    <i class="fas fa-skull-crossbones"></i>
-                                </button>
-                            </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>

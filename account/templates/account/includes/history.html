@@ -1,1 +1,68 @@
-<h2>History</h2>
+<div class="row w-100 ">
+    <div class="col-md-9 offset-1 ">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-right saddlebrown">
+                    <i class="fas fa-password"></i> History
+                </h5>
+                <hr>
+            </div>
+            <div class="col-md-12">
+                <table class="table table-striped">
+
+                    <tbody class="saddlebrown">
+                    {% for r in rooms %}
+                        <tr>
+                            <td>
+
+                                {{ r.hash }}
+
+                            </td>
+                            <td>
+                                {% if r.is_finish %}
+                                    {% if r.winner_id == request.user.id %}
+                                        <strong class="badge badge-success pb-2">
+                                            WIN
+                                        </strong>
+                                    {% else %}
+                                        <strong class="badge badge-danger pb-2">
+                                            LOST
+                                        </strong>
+                                    {% endif %}
+                                {% else %}
+                                    <strong class="badge badge-primary pb-2">
+                                        N/A
+                                    </strong>
+                                {% endif %}
+                                </strong>
+                            </td>
+                            <td>
+                                {% if r.user_1_id  == request.user.id %}
+                                    <i class="far fa-circle" title="Color white"></i>
+                                {% else %}
+                                    <i class="fas fa-circle" title="Color black"></i>
+                                {% endif %}
+                            </td>
+                            <td>
+
+                                <a href="{% url 'game' r.hash %}">
+                                    {% if not r.is_finish %}
+                                        <i class="fas fa-play" title="Play"></i>
+                                    {% else %}
+                                        <i class="fas fa-eye" title="View"></i>
+                                    {% endif %}
+                                </a>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>

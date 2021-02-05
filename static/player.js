@@ -1,23 +1,18 @@
 var board = null
 var game = new Chess()
-var $status = $('#status')
-var $fen = $('#fen')
-var $pgn = $('#pgn')
+toastr.options.closeButton = true;
+// toastr.options.closeDuration  = 500;
+// toastr.options.showDuration  = 1;
 const orientation = $('input[name=orientation]').val();
+const username = $('input[name=username]').val();
+var opponent__username = $('input[name=opponent_username]').val();
+
+var socket = io('http://127.0.0.1:3000');
 
 function onDragStart(source, piece, position, orientation) {
     // do not pick up pieces if the game is over
     if (game.game_over()) return false
 
-    let a, b;
-
-    if (orientation === 'white') {
-        a = 'w';
-        b = 'b';
-    } else {
-        a = 'b';
-        b = 'w';
-    }
 
     // only pick up pieces for the side to move
 
@@ -54,8 +49,10 @@ function onDrop(source, target) {
 
     socket.emit('broad_cast_fen', {
         fen: game.fen(),
+        move: move,
         room: room
     });
+
     updateStatus()
 }
 
@@ -68,38 +65,41 @@ function onSnapEnd() {
 function updateStatus() {
     var status = ''
 
-    var moveColor = 'White'
+    var moveColor = 'white'
     if (game.turn() === 'b') {
-        moveColor = 'Black'
+        moveColor = 'black'
     }
 
     // checkmate?
     if (game.in_checkmate()) {
-        status = 'Game over, ' + moveColor + ' is in checkmate.'
-        alert(status)
+        var winner = username
 
+        if (moveColor === orientation) {
+            winner = opponent__username
+        }
+
+        socket.emit('checkmate', {
+            room: room,
+            winner: winner
+        });
     }
 
     // draw?
     else if (game.in_draw()) {
-        status = 'Game over, drawn position'
+
     }
 
     // game still on
     else {
-        status = moveColor + ' to move'
 
         // check?
         if (game.in_check()) {
-            status += ', ' + moveColor + ' is in check'
-            alert(status)
-
+            socket.emit('check', {
+                room: room,
+                color: moveColor
+            });
         }
     }
-
-    $status.html(status)
-    $fen.html(game.fen())
-    $pgn.html(game.pgn())
 }
 
 var config = {
@@ -113,17 +113,15 @@ var config = {
 board = Chessboard('board1', config)
 
 updateStatus()
-const room = $('input[name=game]').val();
+const room = $('input[name=room]').val();
 const fen = $('input[name=fen]').val();
+
 
 if (fen) {
     board.position(fen)
     game.load(fen)
 }
 
-var socket = io('http://127.0.0.1:3000');
-
-socket.emit('login', room);
 
 $.ajaxSetup({
     headers: {
@@ -131,20 +129,63 @@ $.ajaxSetup({
     }
 });
 
+socket.emit('login', {room: room, username: username});
 
 socket.on('receive_fen', function (data) {
-    board.position(data.fen)
-    game.load(data.fen)
-    $.ajax({
-        url: `/room/${room}/fen`,
-        method: 'POST',
-        data: {
-            fen: data.fen
-        },
-        success: function () {
+    board.position(data.fen);
+    game.load(data.fen);
+    printMoves(JSON.parse(data.moves));
 
-        }
-    })
+
 });
 
+socket.on('in_check', function (data) {
+    if (data.color === orientation) {
+        toastr.error('check', 'Attention')
+    }
+})
+socket.on('game_finished', function (data) {
+    data = JSON.parse(data)
+    if (data.winner === username) {
+        toastr.success('checkmate', 'WIN')
 
+    } else {
+        toastr.error('checkmate', 'LOST')
+    }
+
+})
+
+socket.on('user:on', function (data) {
+    if (data.length === 2) {
+        $('.opponent').find('.status').removeClass('offline__status')
+        $('.opponent').find('.status').addClass('online__status')
+        opponent__username = data.username
+        $('.opponent').find('.opponent__username').text(opponent__username)
+    }
+})
+
+
+socket.on('user:off', function (data) {
+    $('.opponent').find('.status').removeClass('online__status');
+    $('.opponent').find('.status').addClass('offline__status');
+})
+
+
+function printMoves(moves) {
+    let html = '';
+
+    $.each(moves, function (i, m) {
+        html += '<span class="move">' + (i + 1) + ' ' + m + '</span>';
+    })
+
+    $('#moves__div').html(html);
+}
+
+$('#surrender__btn').click(function () {
+    if (confirm('Are you sure?')) {
+        socket.emit('checkmate', {
+            room: room,
+            winner: opponent__username
+        });
+    }
+})
