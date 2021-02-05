@@ -102,9 +102,13 @@
 <script src="/static/chessjs/chess.js"></script>
 <script src="/static/toastr/toastr.min.js"></script>
 
+
 {% if room %}
     {% if  room.is_finish == 0 %}
-        <script src="http://127.0.0.1:3000/socket.io/socket.io.js"></script>
+        <script src="{% socket_host %}/socket.io/socket.io.js"></script>
+        <script>
+            const socket = io({% socket_host %});
+        </script>
         <script src="/static/player.js"></script>
     {% else %}
         <script src="/static/board.js"></script>

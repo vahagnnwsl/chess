@@ -7,7 +7,6 @@ const orientation = $('input[name=orientation]').val();
 const username = $('input[name=username]').val();
 var opponent__username = $('input[name=opponent_username]').val();
 
-var socket = io('http://127.0.0.1:3000');
 
 function onDragStart(source, piece, position, orientation) {
     // do not pick up pieces if the game is over
